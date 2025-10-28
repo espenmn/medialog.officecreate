@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="medialog.officecreate">
+
+ <!-- -*- extra stuff goes here -*- -->
+
+  <browser:viewlet
+     name="office-viewlet"
+     for="plone.app.contenttypes.interfaces.IDocument"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+     class=".office_viewlet.OfficeViewlet"
+     template="office-viewlet.pt"
+     permission="zope2.View"
+     />
+
+
+</configure>
