@@ -7,6 +7,12 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="medialog.officecreate.AddPowerPointDummy"
+        title="medialog.officecreate: Add PowerPointDummy"
+    />
+
+
+    <permission
         id="medialog.officecreate.AddDocxExample"
         title="medialog.officecreate: Add DocxExample"
     />
