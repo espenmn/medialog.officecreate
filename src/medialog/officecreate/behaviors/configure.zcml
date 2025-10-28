@@ -10,6 +10,16 @@
     <!-- -*- extra stuff goes here -*- -->
 
     <plone:behavior
+        name="medialog.officecreate.docx_behavior"
+        title="DocxBehavior"
+        description="Export Word Docx files from templates"
+        provides=".docx_behavior.IDocxBehavior"
+        factory=".docx_behavior.DocxBehavior"
+        marker=".docx_behavior.IDocxBehaviorMarker"
+        />
+
+
+    <plone:behavior
         name="medialog.officecreate.power_point_behavior"
         title="PowerPointBehavior"
         description="Adds Power point export fromt templates"
