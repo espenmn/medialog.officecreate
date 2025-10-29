@@ -50,10 +50,11 @@ setup(
     python_requires=">=3.7",
     install_requires=[
         'setuptools',
-        # -*- Extra requirements: -*-
         'z3c.jbot',
         'plone.api>=1.8.4',
         'plone.app.dexterity',
+        'html2docx',
+        'docxtpl'
     ],
     extras_require={
         'test': [

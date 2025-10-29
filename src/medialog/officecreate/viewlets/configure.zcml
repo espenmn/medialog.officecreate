@@ -8,7 +8,7 @@
 
   <browser:viewlet
      name="office-viewlet"
-     for="plone.app.contenttypes.interfaces.IDocument"
+     for="medialog.officecreate.docx_behavior"
      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
      layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
      class=".office_viewlet.OfficeViewlet"
