@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="medialog.officecreate">
+
+ <!-- -*- extra stuff goes here -*- -->
+
+  <browser:page
+    name="office-doc-view"
+    for="*"
+    class=".office_doc_view.OfficeDocView"
+    template="office_doc_view.pt"
+    permission="zope2.View"
+    layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+    />
+
+</configure>
