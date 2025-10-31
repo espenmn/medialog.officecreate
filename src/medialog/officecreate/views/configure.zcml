@@ -8,7 +8,17 @@
 
   <browser:page
     name="office-doc-view"
-    for="'medialog.officecreate.behaviors.docs_beahvior.IDocxBehaviorMarker"
+    for="medialog.officecreate.behaviors.docx_behavior.IDocxBehaviorMarker"
+    class=".office_doc_view.OfficeDocView"
+    template="office_doc_view.pt"
+    permission="zope2.View"
+    layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+    />
+
+
+  <browser:page
+    name="office-doc-view"
+    for="medialog.officecreate.behaviors.power_point_behavior.IPowerPointBehaviorMarker"
     class=".office_doc_view.OfficeDocView"
     template="office_doc_view.pt"
     permission="zope2.View"

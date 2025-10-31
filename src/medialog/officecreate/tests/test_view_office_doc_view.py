@@ -20,10 +20,12 @@ class ViewsIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         api.content.create(self.portal, 'Folder', 'other-folder')
         api.content.create(self.portal, 'Document', 'front-page')
+        api.content.create(self.portal, 'DocxExample', 'docx-example')
+        
 
     def test_office_doc_view_is_registered(self):
         view = getMultiAdapter(
-            (self.portal['other-folder'], self.portal.REQUEST),
+            (self.portal['docx-example'], self.portal.REQUEST),
             name='office-doc-view'
         )
         self.assertTrue(IOfficeDocView.providedBy(view))

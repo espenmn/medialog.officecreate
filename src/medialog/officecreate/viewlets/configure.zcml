@@ -8,7 +8,7 @@
 
   <browser:viewlet
      name="office-viewlet"
-     for="medialog.officecreate.docx_behavior"
+     for="medialog.officecreate.behaviors.power_point_behavior.IPowerPointBehaviorMarker"
      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
      layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
      class=".office_viewlet.OfficeViewlet"
@@ -16,5 +16,15 @@
      permission="zope2.View"
      />
 
+  <browser:viewlet
+     name="office-viewlet"
+     for="medialog.officecreate.behaviors.docx_behavior.IDocxBehaviorMarker"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+     class=".office_viewlet.OfficeViewlet"
+     template="office-viewlet.pt"
+     permission="zope2.View"
+     />
+ 
 
 </configure>

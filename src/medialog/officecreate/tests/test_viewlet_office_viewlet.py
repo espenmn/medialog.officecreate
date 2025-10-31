@@ -23,14 +23,15 @@ class ViewletIntegrationTest(unittest.TestCase):
         self.request = self.app.REQUEST
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         api.content.create(self.portal, 'Document', 'other-document')
-        api.content.create(self.portal, 'News Item', 'newsitem')
+        api.content.create(self.portal, 'News Item', 'newsitem')         
+        api.content.create(self.portal, 'DocxExample', 'doc-example')
 
     def test_office_viewlet_is_registered(self):
-        view = BrowserView(self.portal['other-document'], self.request)
+        view = BrowserView(self.portal['doc-example'], self.request)
         manager_name = 'plone.abovecontenttitle'
         alsoProvides(self.request, IMedialogOfficecreateLayer)
         manager = queryMultiAdapter(
-            (self.portal['other-document'], self.request, view),
+            (self.portal['doc-example'], self.request, view),
             IViewletManager,
             manager_name,
             default=None

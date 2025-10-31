@@ -1,6 +1,7 @@
 -c https://dist.plone.org/release/6.0-latest/constraints.txt
 
 #setuptools==54.0.0
+# setuptools==80.9.0
 #zc.buildout==3.0.0b2
 #pip==21.0.1
 #
@@ -15,3 +16,4 @@ isort==5.12.0
 black==22.8.0
 flake8==5.0.4
 cffi==2.0.0
+

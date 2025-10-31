@@ -17,7 +17,11 @@ from plone import api
 from docx import Document
 from docx.shared import Mm
 from docxtpl import DocxTemplate, InlineImage, RichText
+
+#For PowerPoint:
+from pptx import Presentation
 from io import BytesIO
+
 
 class IOfficeDocView(Interface):
     """ Marker Interface for IOfficeDocView"""
@@ -32,41 +36,84 @@ class OfficeDocView(BrowserView):
     def __call__(self):
         context = self.context
         selected_file_id = self.request.form.get('selected_file', None)
-        # files = self.find_docx_in_templates()
-        # If no file is found or user hasn't selected one, render a form to choose a file
+
         if not selected_file_id:
             return self.index()
 
-        if selected_file_id:
-            # Extract the selected file's data
-            filen = api.content.get(UID=selected_file_id)
-            file_data = filen.file.data
-            
-            # Wrap in BytesIO for docxtpl etc
-            file_stream = BytesIO(file_data)
-            doc = DocxTemplate(file_stream)
+        filen = api.content.get(UID=selected_file_id)
+        if not filen or not hasattr(filen, 'file'):
+            return "Invalid file selected."
 
-            # Get context data for replacements
+        file_data = filen.file.data
+        file_stream = BytesIO(file_data)
+
+        # Determine file type
+        portal_type = getattr(filen, 'portal_type', '').lower()
+
+        # Handle DOCX (Word)
+        if portal_type in ('file', 'document') and filen.file.filename.endswith('.docx'):
+            doc = DocxTemplate(file_stream)
             replacements = self.get_replacements(context, doc)
             doc.render(replacements)
 
-            # Prepare the output file stream for download
             output_stream = BytesIO()
             doc.save(output_stream)
             output_stream.seek(0)
 
-            # Return the generated document as a downloadable response
-            self.request.response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-            self.request.response.setHeader('Content-Disposition', 'attachment; filename="generated.docx"')
+            self.request.response.setHeader(
+                'Content-Type',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            )
+            self.request.response.setHeader(
+                'Content-Disposition',
+                'attachment; filename="generated.docx"'
+            )
 
             return output_stream.getvalue()
 
-        return "No valid file selected."
+        # Handle PPTX (PowerPoint)
+        elif portal_type in ('file', 'presentation') or filen.file.filename.endswith('.pptx'):
+            prs = Presentation(file_stream)
+            replacements = self.get_replacements(context, prs)
+            
+            for slide in prs.slides:
+                for shape in slide.shapes:
+                    if not shape.has_text_frame:
+                        continue
+
+                    for paragraph in shape.text_frame.paragraphs:
+                        for run in paragraph.runs:
+                                original_text = run.text
+                                new_text = original_text
+                                for key, value in replacements.items():
+                                    # import pdb; pdb.set_trace()
+                                    strvalue = str(value).replace("\r", "")
+                                    #.replace("\n", "*")
+                                    new_text = new_text.replace(key, strvalue)
+                                    
+                                if new_text != original_text:
+                                    run.text = new_text
+                            
+            output_stream = BytesIO()
+            prs.save(output_stream)
+            output_stream.seek(0)
+
+            self.request.response.setHeader(
+                'Content-Type',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            )
+            self.request.response.setHeader(
+                'Content-Disposition',
+                'attachment; filename="generated.pptx"'
+            )
+
+            return output_stream.getvalue()
+
+        return "Unsupported or invalid file type."
     
     def get_replacements(self, context, doc):
         """Get the replacements for the Word template."""
-        replacements = {}
-        
+        replacements = {}        
         
         for schema in iterSchemata(context):
             schema_obj = schema(context)  # This adapts context to the schema
@@ -96,36 +143,38 @@ class OfficeDocView(BrowserView):
         replacements['title'] = context.Title()
         replacements['description'] = context.Description()
         
-        # image_field = getattr(context, 'myfield', None)
-        # if image_field and getattr(image_field, 'data', None):
-        #     image_data = image_field.data
-        #     image_stream = BytesIO(image_data)
-        #     # Use InlineImage from docxtpl
-        #     replacements['myimage'] = InlineImage(doc, image_stream, width=Mm(50))  # adjust size
-
-        
         return replacements
     
         
     def find_docx_in_templates(self):
         # Define the path to search within (e.g., /templates)
-        folder_path = 'Plone11/templates'
-        
-        # Search for all File content items within the folder
-        documents = api.content.find(portal_type='File', path={'query': folder_path, 'depth': 1})
-        
-        # Collect the items
+        portal = api.portal.get()
         docx_items = []
-        for document in documents: 
-            obj = document.getObject()
-            file_type = obj.file.contentType
-            if file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-                docx_items.append({
-                    'title': obj.Title(),
-                    # 'url': obj.absolute_url, 
-                    # 'object': obj,
-                    'uuid': obj.UID(),
-                    'file_name': obj.file.filename  # Include the filename as well for easier reference
-                })
+        if portal.get('templates', False):            
+            templates = portal.get('templates')
+            
+            # Search for all File content items within the folder
+            documents = api.content.find(
+                portal_type='File',
+                context=templates,
+            )
+            
+            # Collect the items
+            for document in documents: 
+                obj = document.getObject()
+                file_type = obj.file.contentType
+                if file_type in  [
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                    ]:
+                    docx_items.append({
+                        'title': obj.Title(),
+                        'file_type': file_type.split('.')[-1],
+                        # 'url': obj.absolute_url, 
+                        # 'object': obj,
+                        'uuid': obj.UID(),
+                        'file_name': obj.file.filename  # Include the filename as well for easier reference
+                    })
         
         return docx_items
+        
