@@ -18,11 +18,11 @@ from docx import Document
 from docx.shared import Mm
 from docx.text.paragraph import Paragraph
 from docxtpl import DocxTemplate, InlineImage, RichText
+from lxml import etree
+EMU_PER_MM = 36000
 
-import tempfile
-import os
-
-
+# import tempfile
+# import os
 
 #For PowerPoint:
 from pptx import Presentation
@@ -33,6 +33,61 @@ from PIL import Image
 class IOfficeDocView(Interface):
     """ Marker Interface for IOfficeDocView"""
 
+
+    
+
+# -------------------------------------------------------------
+# EXTRACT PLACEHOLDER SIZES FROM WORD FILE
+# -------------------------------------------------------------
+def get_box_sizes_from_docx(template_docx):
+        """
+        Returns: dict placeholder -> (width_mm, height_mm)
+        Returns empty dict if doc or doc.docx is invalid.
+        """
+         # Namespaces
+        w_ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        a_ns = "http://schemas.openxmlformats.org/drawingml/2006/main"
+        wps_ns = "http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+        root = template_docx.element
+        ns = root.nsmap or {}
+
+        results = {}
+        for t in template_docx.element.iter("{%s}t" % w_ns):
+            if not t.text:
+                continue
+            text = t.text.strip()
+            if not (text.startswith("{{") and text.endswith("}}")):
+                continue
+            placeholder = text.strip("{} ").strip()
+            # climb parents to find <a:graphic>
+            parent = t.getparent()
+            ext_cx = ext_cy = None
+            while parent is not None:
+                for graphic in parent.iter("{%s}graphic" % a_ns):
+                    # inside <a:graphicData>
+                    for gdata in graphic.iter("{%s}graphicData" % a_ns):
+                        for wsp in gdata.iter("{%s}wsp" % wps_ns):
+                            for spPr in wsp.iter("{%s}spPr" % wps_ns):
+                                for xfrm in spPr.iter("{%s}xfrm" % a_ns):
+                                    for ext in xfrm.iter("{%s}ext" % a_ns):
+                                        try:
+                                            ext_cx = int(ext.get("cx"))
+                                            ext_cy = int(ext.get("cy"))
+                                        except (TypeError, ValueError):
+                                            continue
+                if ext_cx is not None and ext_cy is not None:
+                    break
+                parent = parent.getparent()
+
+            if ext_cx is not None and ext_cy is not None:
+                width_mm = ext_cx / EMU_PER_MM
+                height_mm = ext_cy / EMU_PER_MM
+                results[placeholder] = (width_mm, height_mm)
+
+        return results
+
+    
+    
 
 @implementer(IOfficeDocView)
 class OfficeDocView(BrowserView):
@@ -53,16 +108,20 @@ class OfficeDocView(BrowserView):
 
         file_data = filen.file.data
         file_stream = BytesIO(file_data)
+        file_stream.seek(0)
 
         # Determine file type
         portal_type = getattr(filen, 'portal_type', '').lower()
 
         # Handle DOCX (Word)
         if portal_type in ('file', 'document') and filen.file.filename.endswith('.docx'):
-            doc = DocxTemplate(file_stream)
-        
+            # Build a python-docx Document for inspecting boxes
+            template_docx = Document(file_stream)
+            box_sizes = get_box_sizes_from_docx(template_docx)
+                    
             # --- 1. Get Text/Simple Replacements ---
             # Assuming get_doc_replacements() returns a dictionary of simple variables
+            doc = DocxTemplate(file_stream)
             replacements = self.get_doc_replacements(context, doc)
             
             # --- 2. Add Image Replacements to the SAME Dictionary ---
@@ -73,27 +132,24 @@ class OfficeDocView(BrowserView):
                     
                     if isinstance(value, NamedBlobImage) and getattr(value, 'data', None):
                         image_stream = BytesIO(value.data)
-                        alt_text_identifier = name 
-
-                        # *** IMPORTANT: replace_pic needs a file path, not a stream ***
-                        # We must write the stream to a temporary file in Plone/Python
-                        suffix = os.path.splitext(value.filename)[1]
-                        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temp_img_file:
-                            temp_img_file.write(value.data)
-                            temp_img_path = temp_img_file.name 
-
-                        # This method should fill the existing shape size in the template
-                        doc.replace_media(alt_text_identifier, temp_img_path)
-                        
-                        # width = shape.width or Mm(default_size_mm)
-                        # height = shape.height or Mm(default_size_mm)
-                        # Note: You can skip the EMU calculation unless you need exact pixel sizing
-                        # docxtpl handles sizing well with Mm or Inches classes
-                        
-                        # Add the InlineImage object to the main replacements dictionary.
-                        # The 'name' variable here is assumed to be the FIELD NAME in Plone, 
-                        # which should match the JINJA2 TAG in your DOCX template (e.g., {{ name }} )
-                        replacements[name] = InlineImage(doc, image_stream, width=Mm(50))
+                        width = value._width # 1200
+                        height = value._height # 800
+                        sizes = box_sizes.get(name)
+                        if sizes: 
+                            image_width = sizes[0] # 400
+                            image_height = sizes[1] # 440
+                            ratio_w = width / image_width # 3
+                            ratio_h = height / image_height # 2
+                            ratio = min(ratio_w, ratio_h)
+                            width = width / ratio
+                            height = height / ratio
+                            # TO DO: Find heighest percentace, check image with PIL and center image
+                            replacements[name] = InlineImage(doc, image_stream, width=Mm(width), height=Mm(height))
+                        else:
+                            # Add the InlineImage object to the main replacements dictionary.
+                            # The 'name' variable here is assumed to be the FIELD NAME in Plone, 
+                            # which should match the JINJA2 TAG in your DOCX template (e.g., {{ name }} )
+                            replacements[name] = InlineImage(doc, image_stream)
 
             # --- 3. RENDER ONCE with the complete dictionary ---
             doc.render(replacements)
@@ -302,3 +358,6 @@ class OfficeDocView(BrowserView):
         
         return docx_items
         
+        
+        
+    
