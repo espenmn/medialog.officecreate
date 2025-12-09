@@ -7,6 +7,16 @@
  <!-- -*- extra stuff goes here -*- -->
 
   <browser:viewlet
+     name="office-create-viewlet"
+     for="medialog.officecreate.behaviors.docx_behavior.IDocxBehavior"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+     class=".office_create_viewlet.OfficeCreateViewlet"
+     template="office-create-viewlet.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
      name="office-viewlet"
      for="medialog.officecreate.behaviors.power_point_behavior.IPowerPointBehaviorMarker"
      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"

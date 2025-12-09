@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from plone.app.layout.viewlets import ViewletBase
-# from plone import api
 
 
-class OfficeViewlet(ViewletBase):
+class OfficeCreateViewlet(ViewletBase):
 
     def update(self):
         self.message = self.get_message()
 
     def get_message(self):
         return self.context.absolute_url()
-
+    
     def index(self):
-        return super(OfficeViewlet, self).render()
+        return super(OfficeCreateViewlet, self).render()
+
+
+

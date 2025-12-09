@@ -13,22 +13,26 @@ from plone.dexterity.utils import iterSchemata
 from zope.schema import getFieldsInOrder
 from plone import api
 
-# import docx
+# docx
 from docx import Document
 from docx.shared import Mm
 from docx.text.paragraph import Paragraph
 from docxtpl import DocxTemplate, InlineImage, RichText
 from lxml import etree
-EMU_PER_MM = 36000
-
-# import tempfile
-# import os
 
 #For PowerPoint:
 from pptx import Presentation
-from io import BytesIO
 
+# Images / resizing
 from PIL import Image
+
+import tempfile
+from io import BytesIO
+import subprocess
+# import os
+
+
+EMU_PER_MM = 36000
 
 class IOfficeDocView(Interface):
     """ Marker Interface for IOfficeDocView"""
@@ -98,6 +102,7 @@ class OfficeDocView(BrowserView):
     def __call__(self):
         context = self.context
         selected_file_id = self.request.form.get('selected_file', None)
+        format_ = self.request.get("format", "docx")  # ?format=pdf or ?format=docx
 
         if not selected_file_id:
             return self.index()
@@ -114,7 +119,8 @@ class OfficeDocView(BrowserView):
         portal_type = getattr(filen, 'portal_type', '').lower()
 
         # Handle DOCX (Word)
-        if portal_type in ('file', 'document') and filen.file.filename.endswith('.docx'):
+        filenavn = filen.file.filename
+        if portal_type in ('file', 'document') and filenavn.endswith('.docx'):
             # Build a python-docx Document for inspecting boxes
             template_docx = Document(file_stream)
             box_sizes = get_box_sizes_from_docx(template_docx)
@@ -155,22 +161,56 @@ class OfficeDocView(BrowserView):
             doc.render(replacements)
 
             # --- 4. Save and return the file (Plone specific handling) ---
-            # Use a BytesIO object to capture the output for Plone response
+            # Use a BytesIO object to capture the o utput for Plone response
             output_stream = BytesIO()
             doc.save(output_stream)
             output_stream.seek(0)
+            attachment_name = f"{filenavn}.docx"
             
-            
-            self.request.response.setHeader(
-                'Content-Type',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-            )
-            self.request.response.setHeader(
-                'Content-Disposition',
-                'attachment; filename="generated.docx"'
-            )
+            if format_ == "pdf":
+                # --- 2) Write DOCX to temp file ---
+                docx_temp = tempfile.NamedTemporaryFile(delete=False, suffix='.docx')
+                docx_temp.write(output_stream.getvalue())
+                docx_temp.close()
 
-            return output_stream.getvalue()
+                # --- 3) Convert DOCX → PDF using LibreOffice ---
+                subprocess.run([
+                    "libreoffice",
+                    "--headless",
+                    "--convert-to", "pdf",
+                    "--outdir", "/tmp",
+                    docx_temp.name
+                ], check=True)
+
+                pdf_path = docx_temp.name.replace(".docx", ".pdf")
+
+                # --- 4) Return PDF ---
+                with open(pdf_path, "rb") as f:
+                    pdf_data = f.read()
+
+                attachment_name = f"{filenavn}.pdf"
+                self.request.response.setHeader("Content-Type", "application/pdf")
+
+                self.request.response.setHeader(
+                    "Content-Disposition",
+                    f'attachment; filename="{attachment_name}"'
+                )
+                return pdf_data
+
+            else:
+
+                self.request.response.setHeader(
+                    'Content-Type',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                )
+                self.request.response.setHeader(
+                    'Content-Disposition',
+                    f'attachment; filename="{attachment_name}"'
+                )
+
+                return output_stream.getvalue() 
+        
+
 
         # Handle PPTX (PowerPoint)
         elif portal_type in ('file', 'presentation') or filen.file.filename.endswith('.pptx'):

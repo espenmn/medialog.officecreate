@@ -55,7 +55,7 @@ setup(
         'plone.app.dexterity',
         'html2docx',
         'docxtpl',
-        'python-pptx'
+        'python-pptx',
     ],
     extras_require={
         'test': [
