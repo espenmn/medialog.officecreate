@@ -374,9 +374,11 @@ class OfficeDocView(BrowserView):
             templates = portal.get('templates')
             
             # Search for all File content items within the folder
+            # To do: search for 'template' / subject
             documents = api.content.find(
                 portal_type='File',
                 context=templates,
+                
             )
             
             # Collect the items
