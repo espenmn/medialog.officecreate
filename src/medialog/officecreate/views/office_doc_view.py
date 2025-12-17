@@ -367,7 +367,12 @@ class OfficeDocView(BrowserView):
                 if not value:
                     continue
                 if isinstance(value, NamedBlobImage) and getattr(value, 'data', None):
-                    continue                           
+                    continue    
+                
+                if isinstance(value, list) and name=="table":
+                    for item in value:
+                        name = item['name']
+                        replacements[name] = item['value']                       
                             
                 # if isinstance(value, RichTextValue) and getattr(value, 'output', None):
                 #     html = value.raw

@@ -52,6 +52,25 @@ Documentation
 Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
 
 
+Datagridfield
+--------------
+
+        <?xml version='1.0' encoding='utf8'?>
+        <model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:indexer="http://namespaces.plone.org/supermodel/indexer" xmlns:users="http://namespaces.plone.org/supermodel/users" xmlns:lingua="http://namespaces.plone.org/supermodel/lingua" xmlns="http://namespaces.plone.org/supermodel/schema">
+        <schema>
+            <field name="table" type="zope.schema.List">
+        <description/>
+        <title>Table</title>
+        <value_type type="collective.z3cform.datagridfield.row.DictRow">
+            <schema>medialog.officecreate.interfaces.INameValueRow</schema>
+        </value_type>
+        <form:widget type="collective.z3cform.datagridfield.datagridfield.DataGridFieldFactory"/>
+        </field>
+        </schema>
+        </model>
+
+        
+
 Translations
 ------------
 
