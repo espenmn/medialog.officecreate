@@ -26,18 +26,19 @@ from pptx import Presentation
 # Images / resizing
 from PIL import Image
 
+# Read => Save
 import tempfile
 from io import BytesIO
 import subprocess
-# import os
+import zipfile
+import os
 
-
+#Word measurements
 EMU_PER_MM = 36000
+
 
 class IOfficeDocView(Interface):
     """ Marker Interface for IOfficeDocView"""
-
-
     
 
 # -------------------------------------------------------------
@@ -122,6 +123,7 @@ class OfficeDocView(BrowserView):
         filenavn = filen.file.filename
         if portal_type in ('file', 'document') and filenavn.endswith('.docx'):
             # Build a python-docx Document for inspecting boxes
+            filenavn = filenavn.replace(".docx", "")
             template_docx = Document(file_stream)
             box_sizes = get_box_sizes_from_docx(template_docx)
                     
@@ -165,12 +167,13 @@ class OfficeDocView(BrowserView):
             output_stream = BytesIO()
             doc.save(output_stream)
             output_stream.seek(0)
+            docx_bytes = output_stream.getvalue()
             attachment_name = f"{filenavn}.docx"
             
-            if format_ == "pdf":
+            if format_ in ("pdf", "both"):
                 # --- 2) Write DOCX to temp file ---
                 docx_temp = tempfile.NamedTemporaryFile(delete=False, suffix='.docx')
-                docx_temp.write(output_stream.getvalue())
+                docx_temp.write(docx_bytes)
                 docx_temp.close()
 
                 # --- 3) Convert DOCX → PDF using LibreOffice ---
@@ -186,17 +189,52 @@ class OfficeDocView(BrowserView):
 
                 # --- 4) Return PDF ---
                 with open(pdf_path, "rb") as f:
-                    pdf_data = f.read()
+                    pdf_bytes = f.read()
 
-                attachment_name = f"{filenavn}.pdf"
-                self.request.response.setHeader("Content-Type", "application/pdf")
+                # -------------------------------------------------
+                # FORMAT = PDF (return pdf)
+                # -------------------------------------------------
+                if format_ == "pdf":
 
-                self.request.response.setHeader(
-                    "Content-Disposition",
-                    f'attachment; filename="{attachment_name}"'
-                )
-                return pdf_data
+                    self.request.response.setHeader("Content-Type", "application/pdf")
+                    self.request.response.setHeader(
+                        "Content-Disposition",
+                        f'attachment; filename="{filenavn}.pdf"'
+                    )
 
+                    # Cleanup
+                    os.unlink(docx_temp.name)
+                    os.unlink(pdf_path)
+
+                    return pdf_bytes
+
+                # -------------------------------------------------
+                # FORMAT = BOTH → ZIP
+                # -------------------------------------------------
+                elif format_ == "both":
+
+                    zip_stream = BytesIO()
+                    with zipfile.ZipFile(zip_stream, "w", zipfile.ZIP_DEFLATED) as zipf:
+                        zipf.writestr(f"{filenavn}.docx", docx_bytes)
+                        zipf.writestr(f"{filenavn}.pdf", pdf_bytes)
+
+                    zip_stream.seek(0)
+
+                    self.request.response.setHeader("Content-Type", "application/zip")
+                    self.request.response.setHeader(
+                        "Content-Disposition",
+                        f'attachment; filename="{filenavn}.zip"'
+                    )
+
+                    # Cleanup
+                    os.unlink(docx_temp.name)
+                    os.unlink(pdf_path)
+
+                    return zip_stream.getvalue()
+
+            # -------------------------------------------------
+            # FORMAT = DOCX (original behavior)
+            # -------------------------------------------------
             else:
 
                 self.request.response.setHeader(
@@ -208,8 +246,7 @@ class OfficeDocView(BrowserView):
                     f'attachment; filename="{attachment_name}"'
                 )
 
-                return output_stream.getvalue() 
-        
+                return docx_bytes  
 
 
         # Handle PPTX (PowerPoint)

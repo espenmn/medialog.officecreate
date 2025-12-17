@@ -2,6 +2,6 @@
   <p>
     <a title="officebutton" href="${view/message}/@@office-doc-view" 
      class="btn button standalone submit-widget btn-primary success btn-standalone"
-     >Create Office Doc </a>
+     >Create Office Document</a>
   </p>
 </div>
