@@ -212,7 +212,6 @@ class OfficeDocView(BrowserView):
                 # FORMAT = BOTH → ZIP
                 # -------------------------------------------------
                 elif format_ == "both":
-
                     zip_stream = BytesIO()
                     with zipfile.ZipFile(zip_stream, "w", zipfile.ZIP_DEFLATED) as zipf:
                         zipf.writestr(f"{filenavn}.docx", docx_bytes)
@@ -230,7 +229,7 @@ class OfficeDocView(BrowserView):
                     os.unlink(docx_temp.name)
                     os.unlink(pdf_path)
 
-                    return zip_stream.getvalue()
+                    return zip_stream.getvalue() 
 
             # -------------------------------------------------
             # FORMAT = DOCX (original behavior)
