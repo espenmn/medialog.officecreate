@@ -3,7 +3,7 @@
     <a title="officebutton_word" href="${view/message}/@@office-doc-view" class="btn button standalone submit-widget btn-primary success btn-standalone">Create Office Doc </a>
     <a title="officebutton_pdf" href="${view/message}/@@office-doc-view?format=pdf" class="btn button standalone submit-widget btn-secondary success btn-standalone">Create PDF from Office Doc </a>
     <a title="office_both" href="${view/message}/@@office-doc-view?format=both" class="btn button standalone submit-widget btn-dark">Both</a>
-    <a title="editn" href="/@@edit" class="btn button standalone submit-widget btn-success">Both</a>
+    <a title="edit" href="/@@edit" class="btn button standalone submit-widget btn-success">✎ Edit</a>
   </p>
   <div class="container">
     <hr/>
