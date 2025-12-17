@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Module where all interfaces, events and exceptions live."""
 
+from zope import schema
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.interface import Interface
+# from plone.app.contenttypes import _
+# _ = MessageFactory('medialog.officecreate')
 
-
+class INameValueRow(Interface):
+    name  = schema.TextLine(title=u"Name", required=False)
+    value = schema.TextLine(title=u"Value", required=False)
+    
 class IMedialogOfficecreateLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
