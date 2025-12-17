@@ -5,7 +5,7 @@
   <body>
     <metal:content fill-slot="content">
       <metal:block define-macro="content">
-        <body>
+        <div id="mycontainer">
           <h3>Select Office Template</h3>
 
           <form method="post">
@@ -22,7 +22,8 @@
           </form>
           <br/>
           <p>Select a template from the dropdown above to generate Word / PowerPoint document based on it.</p>
-        </metal:block>
-      </metal:content>
-    </body>
-  </html>
+        </div>
+      </metal:block>
+    </metal:content>
+  </body>
+</html>
