@@ -6,8 +6,5 @@
      <a title="officebutton" href="${view/message}/@@office-doc-view?format=pdf" 
      class="btn button standalone submit-widget btn-secondary success btn-standalone"
      >Create PDF from Office Doc </a>
-    <a title="officebutton" href="${view/message}/@@office-doc-view?format=both" 
-     class="btn button standalone submit-widget btn-dark"
-     >Both</a>
   </p>
 </div>
