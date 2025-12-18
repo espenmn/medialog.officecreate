@@ -7,7 +7,10 @@
       <metal:block define-macro="content">
 
         <div id="mycontainer">
-              <button class="btn button standalone btn-success" type="button" onclick="window.history.back();" i18n:translate="">⬅ Tilbake</button>
+          <div class="m-10-0">
+            <button class="btn button standalone btn-success" type="button" onclick="window.history.back();" i18n:translate="">⬅ Tilbake</button>
+            <hr/>
+          </div>
           <h3>Velg Office Template</h3>
 
           <form method="post">
