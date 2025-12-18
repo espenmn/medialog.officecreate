@@ -5,8 +5,9 @@
   <body>
     <metal:content fill-slot="content">
       <metal:block define-macro="content">
-      <button type="button" onclick="window.history.back();" i18n:translate="">Tilbake</button>
+
         <div id="mycontainer">
+              <button class="btn button standalone btn-success" type="button" onclick="window.history.back();" i18n:translate="">⬅ Tilbake</button>
           <h3>Velg Office Template</h3>
 
           <form method="post">
