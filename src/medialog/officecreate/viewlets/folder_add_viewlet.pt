@@ -3,7 +3,7 @@
     <a title="Add items to folder" 
       href="${view/message}/@@folder_factories" 
         class="btn button standalone submit-widget btn-primary success btn-standalone" 
-        i18n:translate="">Legg til</a>
+        i18n:translate="">Legg til innhold</a>
   </p>
   <div class="container">
     <hr/>
