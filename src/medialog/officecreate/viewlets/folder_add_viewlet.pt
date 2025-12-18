@@ -1,0 +1,9 @@
+<div>
+  <ul class="add-menu">
+    <li tal:repeat="item view/add_menu_items">
+      <a tal:attributes="href item/action">
+        <span tal:content="item/title" />
+      </a>
+    </li>
+  </ul>
+</div>

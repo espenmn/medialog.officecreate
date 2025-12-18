@@ -25,7 +25,7 @@ class ViewletIntegrationTest(unittest.TestCase):
         api.content.create(self.portal, 'Document', 'other-document')
         api.content.create(self.portal, 'News Item', 'newsitem')
 
-    def test_office_create_viewlet_is_registered(self):
+    def test_folder_add_viewlet_is_registered(self):
         view = BrowserView(self.portal['other-document'], self.request)
         manager_name = 'plone.abovecontenttitle'
         alsoProvides(self.request, IMedialogOfficecreateLayer)
@@ -37,11 +37,11 @@ class ViewletIntegrationTest(unittest.TestCase):
         )
         self.assertIsNotNone(manager)
         manager.update()
-        my_viewlet = [v for v in manager.viewlets if v.__name__ == 'office-create-viewlet']  # NOQA: E501
+        my_viewlet = [v for v in manager.viewlets if v.__name__ == 'folder-add-viewlet']  # NOQA: E501
         self.assertEqual(len(my_viewlet), 1)
 
     # XXX would be nice to have this test working:
-    # def test_office_create_viewlet_is_not_available_on_newsitem(self):
+    # def test_folder_add_viewlet_is_not_available_on_newsitem(self):
     #     view = BrowserView(self.portal['newsitem'], self.request)
     #     manager_name = 'plone.abovecontenttitle'
     #     alsoProvides(self.request, IMedialogOfficecreateLayer)
@@ -53,7 +53,7 @@ class ViewletIntegrationTest(unittest.TestCase):
     #     )
     #     self.assertIsNotNone(manager)
     #     manager.update()
-    #     my_viewlet = [v for v in manager.viewlets if v.__name__ == 'office-create-viewlet']  # NOQA: E501
+    #     my_viewlet = [v for v in manager.viewlets if v.__name__ == 'folder-add-viewlet']  # NOQA: E501
     #     self.assertEqual(len(my_viewlet), 0)
 
 

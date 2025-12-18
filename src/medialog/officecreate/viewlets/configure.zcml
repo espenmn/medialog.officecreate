@@ -7,14 +7,14 @@
  <!-- -*- extra stuff goes here -*- -->
 
   <browser:viewlet
-     name="office-create-viewlet"
-     for="medialog.officecreate.behaviors.docx_behavior.IDocxBehavior"
+     name="folder-add-viewlet"
+     for="*"
      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
      layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
-     class=".office_create_viewlet.OfficeCreateViewlet"
-     template="office-create-viewlet.pt"
+     class=".folder_add_viewlet.FolderAddViewlet"
+     template="folder_add_viewlet.pt"
      permission="zope2.View"
-     />
+   />
 
   <browser:viewlet
      name="office-viewlet"
@@ -24,7 +24,7 @@
      class=".office_viewlet.OfficeViewlet"
      template="office-viewlet.pt"
      permission="zope2.View"
-     />
+   />
 
   <browser:viewlet
      name="office-viewlet"
