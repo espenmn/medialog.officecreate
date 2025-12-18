@@ -5,6 +5,8 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="medialog.officecreate">
 
+  <!-- <include package="plone.app.locales" /> -->
+
   <i18n:registerTranslations directory="locales" />
 
   <!--

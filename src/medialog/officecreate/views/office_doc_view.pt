@@ -6,22 +6,22 @@
     <metal:content fill-slot="content">
       <metal:block define-macro="content">
         <div id="mycontainer">
-          <h3>Select Office Template</h3>
+          <h3>Velg Office Template</h3>
 
           <form method="post">
             <select name="selected_file">
-              <option value="">-- Choose a template --</option>
+              <option value="" i18n:translate="">-- Velg template --</option>
               <tal:repeat tal:repeat="item view/find_docx_in_templates|None">
                 <option value="${item/uuid}"> ${item/title} – ${item/file_type}</option>
               </tal:repeat>
             </select>
             <div class="m-10-0">
               <hr/>
-              <input type="submit" value="Generate Office Document"/>
+              <input type="submit" i18n:translate="" value="Generate Office Document"/>
             </div>
           </form>
           <br/>
-          <p>Select a template from the dropdown above to generate Word / PowerPoint document based on it.</p>
+          <p i18n:translate="">Velg mal fra menyen ovenfor for å generere et Word- eller PowerPoint-dokument</p>
         </div>
       </metal:block>
     </metal:content>

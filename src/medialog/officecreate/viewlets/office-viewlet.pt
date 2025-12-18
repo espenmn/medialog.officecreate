@@ -1,9 +1,12 @@
 <div>
   <p>
-    <a title="officebutton_word" href="${view/message}/@@office-doc-view" class="btn button standalone submit-widget btn-primary success btn-standalone">Create Office Doc </a>
-    <a title="officebutton_pdf" href="${view/message}/@@office-doc-view?format=pdf" class="btn button standalone submit-widget btn-secondary success btn-standalone">Create PDF from Office Doc </a>
-    <a title="office_both" href="${view/message}/@@office-doc-view?format=both" class="btn button standalone submit-widget btn-dark">Both</a>
-    <a title="edit" href="${view/message}/@@edit" class="btn button standalone submit-widget btn-success">✎ Edit</a>
+    <a title="officebutton_word" href="${view/message}/@@office-doc-view" 
+      class="btn button standalone submit-widget btn-primary success btn-standalone" i18n:translate="">Lag Office Doc </a>
+    <a title="officebutton_pdf" href="${view/message}/@@office-doc-view?format=pdf" 
+      class="btn button standalone submit-widget btn-secondary success btn-standalone"i18n:translate="">Lag PDF fra Office Doc </a>
+    <a title="office_both" href="${view/message}/@@office-doc-view?format=both" class="btn button standalone submit-widget btn-dark" i18n:translate="">
+    PDF & Word</a>
+    <a title="edit" href="${view/message}/@@edit" class="btn button standalone submit-widget btn-success" i18n:translate="">✎ Rediger</a>
   </p>
   <div class="container">
     <hr/>

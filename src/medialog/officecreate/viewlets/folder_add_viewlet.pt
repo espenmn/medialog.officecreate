@@ -1,9 +1,11 @@
 <div>
-  <ul class="add-menu">
-    <li tal:repeat="item view/add_menu_items">
-      <a tal:attributes="href item/action">
-        <span tal:content="item/title" />
-      </a>
-    </li>
-  </ul>
+  <p>
+    <a title="Add items to folder" 
+      href="${view/message}/@@folder_factories" 
+        class="btn button standalone submit-widget btn-primary success btn-standalone" 
+        i18n:translate="">Legg til</a>
+  </p>
+  <div class="container">
+    <hr/>
+  </div>
 </div>

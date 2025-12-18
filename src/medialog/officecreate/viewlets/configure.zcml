@@ -8,7 +8,7 @@
 
   <browser:viewlet
      name="folder-add-viewlet"
-     for="*"
+     for="plone.app.contenttypes.interfaces.IFolder"
      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
      layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
      class=".folder_add_viewlet.FolderAddViewlet"
