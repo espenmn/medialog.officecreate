@@ -1,0 +1,234 @@
+#mainnavigation-wrapper { margin-bottom: 3rem}
+
+.field span,
+.widgets span,
+.text-widget {
+    background: white !important;
+    padding: 0.4rem 1rem;
+}
+
+
+#mycontainer,
+article#content {
+    background: whitesmoke;
+    max-width: 1440px;
+    margin: auto;
+    padding: 2rem;
+    box-shadow: 7px 7px 7px 2px #777;
+}
+
+select {
+    background: white;
+    font-size: 130%;
+}
+
+#portal-column-content form div.m-10-0 input {
+    padding: 0.6rem 1rem;
+    ;
+    font-weight: bold;
+}
+
+
+.widget-label {
+    min-width: 250px;
+}
+
+.form-label {
+    margin-right: .5rem;
+}
+
+
+.viewpermission-add-portal-content #above-content-wrapper,
+.template-edit #above-content-wrapper,
+.template-action_items #above-content-wrapper {
+    display: none !important;
+}
+
+
+
+
+article#content div.mb-3 {
+    display: flex;
+    font-size: 120%;
+    flex-wrap: wrap;
+}
+
+
+body {
+    background: #C3DCE8 ;
+    xbackground: #E8DCC3
+}
+
+
+
+
+
+#content-header {
+    display: none;
+}
+
+#content #fieldset {
+    background: white !important
+}
+
+#viewlet-below-content #fieldset,
+#viewlet-below-content {
+    background: white;
+    padding: 0;
+    margin: 0
+}
+
+.form-label {
+    margin-right: .5rem;
+}
+
+.imagediv {
+    background-color: #fff;
+    text-align: center;
+}
+
+.imagediv>img {
+    height: 110px;
+    margin: auto;
+}
+
+h2.sit_tit {
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 0.3rem;
+    margin: 0;
+    z-index: 4;
+    background-color: rgb(95, 46, 46);
+    color: white;
+}
+
+.template-edit .outer-wrapper,
+.template-action_items .outer-wrapper,
+.viewpermission-add-portal-content .outer-wrapper {
+    background-color: #999 !important;
+    min-height: 100vh;
+}
+
+.template-action_items h1.documentFirstHeading,
+.template-edit h1.documentFirstHeading,
+.viewpermission-add-portal-content h1.documentFirstHeading {
+    background-color: #f9f2e8;
+    padding: 0.7rem 2rem 0.7rem;
+    color: #555;
+    font-size: 1.15rem;
+    margin-bottom: 0;
+}
+
+.viewpermission-add-portal-content #above-content-wrapper,
+.template-edit #above-content-wrapper,
+.template-action_items #above-content-wrapper {
+    display: none !important;
+}
+ 
+
+#content .formControls {
+    background: none;
+}
+
+.pat-formunloadalert .form-label,
+.pat-formunloadalert legend,
+legend {
+    color: black !important;
+    margin-right: 1rem;
+    line-height: 200%;
+}
+
+.autotoc-nav a {
+    color: black;
+}
+
+.pat-autotoc.autotabs a.active,
+.pat-autotoc.autotabs a:hover {
+    border-color: black;
+    cursor: default;
+    font-weight: bold;
+    border-bottom-color: whitesmoke;
+    background: #EEE;
+
+}
+
+div.mb-3 {
+    display: flex;
+    font-size: 120%;
+    flex-wrap: wrap;
+}
+
+div.mb-3>div.pat-select2,
+div.mb-3 .form-control {
+    max-width: 100%;
+    width: calc(100% - 16rem);
+    flex-grow: 5;
+}
+
+
+
+div.mb-3 .invalid-feedback {
+    margin-top: 0
+}
+
+div.mb-3 table {
+    width: auto;
+}
+
+.pat-formunloadalert legend {
+    color: black
+}
+
+div.mb-3>label {
+    min-width: 13rem;
+    font-size: 1.2rem;
+    ;
+}
+
+div.mb-3 .form-text {
+    display: none;
+}
+
+input.date-widget,
+div.mb-3 .form-select {
+    max-width: 15rem;
+}
+
+.richtext-field,
+.content-browser-wrapper {
+    width: 100% !important;
+}
+
+#formfield-form-widgets-priority,
+#formfield-form-widgets-assigned_to {
+    width: 52%;
+    max-height: 3rem;
+
+}
+
+
+#formfield-form-widgets-source,
+#formfield-form-widgets-related_item {
+    display: none !important;
+}
+
+#formfield-form-widgets-contact_person,
+#formfield-form-widgets-feedback_submitted_by {
+    width: 40%;
+}
+
+#formfield-form-widgets-related_members {
+    width: 37%;
+    float: right;
+    margin-top: -3rem;
+
+}
+
+div.mb-3.widgets.related_members,
+#formfield-form-widgets-related_members,
+#fieldname-form.widgets.related_members,
+#formfield-form-widgets-feedback_text,
+#formfield-form-widgets-notes,
+#formfield-form-widgets-private_notes {
+    display: block
+}
