@@ -368,7 +368,7 @@ class OfficeDocView(BrowserView):
                 if isinstance(value, NamedBlobImage) and getattr(value, 'data', None):
                     continue    
                 
-                if isinstance(value, list) and name=="table":
+                if isinstance(value, list) and name in ["table", "tablerows"]:
                     for item in value:
                         name = item['name']
                         replacements[name] = item['value']                       

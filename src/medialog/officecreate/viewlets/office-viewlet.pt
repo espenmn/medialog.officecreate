@@ -5,8 +5,24 @@
     <a title="office_both" href="${view/message}/@@office-doc-view?format=both" class="btn button standalone submit-widget btn-dark" i18n:translate="">
     PDF & Word</a>
     <a title="edit" href="${view/message}/@@edit" class="btn button standalone submit-widget btn-success" i18n:translate="">✎ Rediger</a>
+
+    <a href="#" class="btn button standalone submit-widget btn-warning" onclick="duplicateAndEdit(); return false;">
+   ⧉ Dupliser basert på denne
+    </a>
+
+
   </p>
   <div class="container">
     <hr/>
   </div>
 </div>
+
+<script>
+function duplicateAndEdit() {
+    const name = prompt("Navn på nytt innhold:");
+    if (!name) return;
+
+    const url = "${view/message}/@@duplicate-and-edit";
+    window.location.href = url + "?new_title=" + encodeURIComponent(name);
+}
+</script>

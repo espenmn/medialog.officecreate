@@ -7,6 +7,15 @@
  <!-- -*- extra stuff goes here -*- -->
 
   <browser:page
+    name="duplicate-and-edit"
+    for="*"
+    class=".duplicate_and_edit.DuplicateAndEdit"
+    template="duplicate_and_edit.pt"
+    permission="cmf.ModifyPortalContent"
+    layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+    />
+
+  <browser:page
     name="office-doc-view"
     for="medialog.officecreate.behaviors.docx_behavior.IDocxBehaviorMarker"
     class=".office_doc_view.OfficeDocView"
