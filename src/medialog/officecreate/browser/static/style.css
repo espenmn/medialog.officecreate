@@ -1,14 +1,14 @@
+
+body {
+    background: #C3DCE8;
+    xbackground: #E8DCC3
+}
+
 #mainnavigation-wrapper {
     margin-bottom: 3rem
 }
 
-.field span,
-.widgets span,
-.text-widget {
-    background: white !important;
-    padding: 0.4rem 1rem;
-}
-
+#form-widgets-tablerows { background: white;}
 
 #mycontainer,
 article#content {
@@ -19,30 +19,10 @@ article#content {
     box-shadow: 7px 7px 7px 2px #777;
 }
 
+#form-groups-settings,
 body.template-view #form-groups-settings {
     display: none
 }
-
-select {
-    background: white;
-    font-size: 130%;
-}
-
-#portal-column-content form div.m-10-0 input {
-    padding: 0.6rem 1rem;
-    ;
-    font-weight: bold;
-}
-
-
-.widget-label {
-    min-width: 250px;
-}
-
-.form-label {
-    margin-right: .5rem;
-}
-
 
 .viewpermission-add-portal-content #above-content-wrapper,
 .template-edit #above-content-wrapper,
@@ -50,23 +30,11 @@ select {
     display: none !important;
 }
 
-
-
-
 article#content div.mb-3 {
     display: flex;
     font-size: 120%;
     flex-wrap: wrap;
 }
-
-
-body {
-    background: #C3DCE8;
-    xbackground: #E8DCC3
-}
-
-
-
 
 
 #content-header {
@@ -83,6 +51,36 @@ body {
     padding: 0;
     margin: 0
 }
+
+select {
+    background: white;
+    font-size: 130%;
+}
+
+#portal-column-content form div.m-10-0 input {
+    padding: 0.6rem 1rem;
+    ;
+    font-weight: bold;
+}
+
+
+.field span,
+.widgets span,
+.text-widget {
+    background: white !important;
+    padding: 0.4rem 1rem;
+}
+
+
+.widget-label {
+    min-width: 250px;
+}
+
+.form-label {
+    margin-right: .5rem;
+}
+
+
 
 .form-label {
     margin-right: .5rem;
