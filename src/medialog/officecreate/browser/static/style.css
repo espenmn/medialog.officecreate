@@ -1,4 +1,6 @@
-#mainnavigation-wrapper { margin-bottom: 3rem}
+#mainnavigation-wrapper {
+    margin-bottom: 3rem
+}
 
 .field span,
 .widgets span,
@@ -15,6 +17,10 @@ article#content {
     margin: auto;
     padding: 2rem;
     box-shadow: 7px 7px 7px 2px #777;
+}
+
+body.template-view #form-groups-settings {
+    display: none
 }
 
 select {
@@ -55,7 +61,7 @@ article#content div.mb-3 {
 
 
 body {
-    background: #C3DCE8 ;
+    background: #C3DCE8;
     xbackground: #E8DCC3
 }
 
@@ -124,7 +130,7 @@ h2.sit_tit {
 .template-action_items #above-content-wrapper {
     display: none !important;
 }
- 
+
 
 #content .formControls {
     background: none;
@@ -152,11 +158,6 @@ legend {
 
 }
 
-  
-
 .pat-formunloadalert legend {
     color: black
 }
-
- 
- 
