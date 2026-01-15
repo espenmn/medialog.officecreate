@@ -96,8 +96,6 @@ def get_box_sizes_from_docx(template_docx):
 
 @implementer(IOfficeDocView)
 class OfficeDocView(BrowserView):
-    # If you want to define a template here, please remove the template from
-    # the configure.zcml registration of this view.
     # template = ViewPageTemplateFile('office_doc_view.pt')
 
     def __call__(self):
@@ -357,7 +355,10 @@ class OfficeDocView(BrowserView):
     
     def get_doc_replacements(self, context, doc):
         """Get the replacements for the Word template."""
-        replacements = {}        
+        replacements = {}   
+        
+        replacements['title'] = context.Title()
+        replacements['description'] = context.Description()     
         
         for schema in iterSchemata(context):
             schema_obj = schema(context)  # This adapts context to the schema
@@ -386,9 +387,6 @@ class OfficeDocView(BrowserView):
                 else:
                     # Normal field
                     replacements[name] = value
-                    
-        replacements['title'] = context.Title()
-        replacements['description'] = context.Description()
         
         return replacements
     
