@@ -10,6 +10,16 @@
     <!-- -*- extra stuff goes here -*- -->
 
     <plone:behavior
+        name="medialog.officecreate.subject_mover"
+        title="Template Subjects"
+        description="Define which Content Type this template is for"
+        provides=".subject_mover.ISubjectMover"
+        factory=".subject_mover.SubjectMover"
+        marker=".subject_mover.ISubjectMoverMarker"
+        />
+
+
+    <plone:behavior
         name="medialog.officecreate.docx_behavior"
         title="DocxBehavior"
         description="Export Word Docx files from templates"

@@ -4,4 +4,5 @@
   <!--<object name="example_ct" meta_type="Dexterity FTI"/>-->
   <object name="DocxExample" meta_type="Dexterity FTI"/>
   <object name="PowerPointDummy" meta_type="Dexterity FTI"/>
+  <object name="Template" meta_type="Dexterity FTI"/>
 </object>

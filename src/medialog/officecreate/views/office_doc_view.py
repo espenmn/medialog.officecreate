@@ -119,7 +119,7 @@ class OfficeDocView(BrowserView):
 
         # Handle DOCX (Word)
         filenavn = filen.file.filename
-        if portal_type in ('file', 'document') and filenavn.endswith('.docx'):
+        if portal_type in ('file', 'Template', 'template', 'document') and filenavn.endswith('.docx'):
             # Build a python-docx Document for inspecting boxes
             filenavn = filenavn.replace(".docx", "")
             template_docx = Document(file_stream)
@@ -247,7 +247,7 @@ class OfficeDocView(BrowserView):
 
 
         # Handle PPTX (PowerPoint)
-        elif portal_type in ('file', 'presentation') or filen.file.filename.endswith('.pptx'):
+        elif portal_type in ('file', 'template', 'Templage', 'presentation') or filen.file.filename.endswith('.pptx'):
             prs = Presentation(file_stream)
             replacements = self.get_ppt_replacements(context, prs)
             
@@ -414,11 +414,19 @@ class OfficeDocView(BrowserView):
             
             # Search for all File content items within the templates folder
             # with Subject (tag) matching content type
-            documents = api.content.find(
+            file_documents = api.content.find(
                 portal_type='File',
                 context=templates,
                 Subject=self.context.Type()                
             )
+            
+            template_documents = api.content.find(
+                portal_type=['Template'],
+                template_for=self.context.Type()                
+            )
+            
+            documents = template_documents + file_documents
+            
             
             # Collect the items
             for document in documents: 
