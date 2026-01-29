@@ -247,7 +247,7 @@ class OfficeDocView(BrowserView):
 
 
         # Handle PPTX (PowerPoint)
-        elif portal_type in ('file', 'template', 'Templage', 'presentation') or filen.file.filename.endswith('.pptx'):
+        elif portal_type in ('file', 'template', 'Template', 'presentation') or filen.file.filename.endswith('.pptx'):
             prs = Presentation(file_stream)
             replacements = self.get_ppt_replacements(context, prs)
             

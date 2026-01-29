@@ -7,6 +7,15 @@
  <!-- -*- extra stuff goes here -*- -->
 
   <browser:page
+    name="p-p-merge-view"
+    for="*"
+    class=".p_p_merge_view.PPMergeView"
+    template="p_p_merge_view.pt"
+    permission="zope2.View"
+    layer="medialog.officecreate.interfaces.IMedialogOfficecreateLayer"
+    />
+
+  <browser:page
     name="duplicate-and-edit"
     for="*"
     class=".duplicate_and_edit.DuplicateAndEdit"

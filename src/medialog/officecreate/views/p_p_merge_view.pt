@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="medialog.officecreate" metal:use-macro="context/main_template/macros/master">
+  <body>
+
+    <metal:custom_title fill-slot="content-title">
+      <h1>Merge PowerPoint files</h1>
+
+    </metal:custom_title>
+
+    <metal:custom_description fill-slot="content-description">
+      <!-- <p tal:replace="structure context/@@description" /> -->
+    </metal:custom_description>
+
+    <metal:content-core fill-slot="content-core">
+      <metal:block define-macro="content-core">
+
+
+
+        <form method="post" enctype="multipart/form-data">
+          <p>
+            <label>First PowerPoint:</label>
+            <br />
+            <input type="file" name="ppt1" accept=".pptx" required />
+</p>
+
+<p>
+<label>Second PowerPoint:</label><br />
+<input type="file" name="ppt2" accept=".pptx" required />
+</p>
+
+<p>
+<button type="submit" name="form.submit">
+                Merge & Download
+            </button>
+          </p>
+        </form>
+
+
+      </metal:block>
+    </metal:content-core>
+  </body>
+</html>
